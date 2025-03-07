@@ -1,0 +1,6 @@
+{
+    "watch": ["./"],
+    "ext": "ts",
+    "ignore": ["node_modules", "prisma", "migrations"],
+    "exec": "ts-node app.ts"
+}

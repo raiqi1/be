@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+
+  @@map("user")
+}
+
+model Dokter {
+  id      Int      @id @default(autoincrement()) // ID otomatis
+  name    String
+  jadwals Jadwal[]
+}
+
+model Jadwal {
+  id          Int      @id @default(autoincrement()) // ID otomatis
+  dokterId    Int // Relasi ke dokter
+  day         String // Hari (mis: Senin, Selasa, dst.)
+  time_start  String // Waktu mulai (mis: 08:00)
+  time_finish String // Waktu selesai (mis: 10:00)
+  quota       Int // Jumlah quota
+  status      Boolean // Status aktif (true/false)
+  date        DateTime // Tanggal jadwal
+  dokter      Dokter   @relation(fields: [dokterId], references: [id]) // Relasi dengan Dokter
+}
